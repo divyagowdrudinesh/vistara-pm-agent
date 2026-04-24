@@ -17,7 +17,7 @@ This agent retrospectively documents that body of work as a professional Jira + 
 |---|---|
 | Epics | 4 |
 | Stories | 42 |
-| Sub-tasks | 20+ |
+| Sub-tasks | 9 |
 | Sprints | 9 |
 | Confluence pages | in progress |
 
@@ -114,11 +114,11 @@ Confluence Atlassian Document Format requires a strict content hierarchy for str
 | 1 | Story points not saving | Used `customfield_10016` (next-gen field) on a classic board | Switched to `customfield_10037` found via `debug_points.py` |
 | 2 | Sub-task creation 400 | Issue type name `"Subtask"` rejected by API | Changed to `"Sub-task"` (hyphenated) per Jira schema |
 | 3 | All requests returning 404 | Atlassian API token expired mid-session | Rotated token in `.env`; confirmed with `debug_direct.py` |
-| 4 | Confluence page creation 400 | ADF content nesting was missing the `listItem` level | Added full 5-level hierarchy: doc → bulletList → listItem → paragraph → text |
-| 5 | Sprint creation 400 | Sent `projectKey` instead of `originBoardId` | Changed payload to use `originBoardId: 100` (found via `find_sprints.py`) |
-| 6 | Sprint assignment 404 | Used core REST API (`/api/3/`) for sprint operations | Switched to Agile API (`/agile/1.0/sprint/{id}/issue`) |
-| 7 | Personal Confluence space not found | Queried v2 API which does not return personal spaces | Switched to v1 `?type=personal` query (found via `find_confluence.py`) |
-| 8 | `load_dotenv()` silently failing | `.env` file not in working directory when running from IDE | Added explicit `load_dotenv()` call at top of every script; confirmed with `debug_addcriteria.py` |
+| 4 | Sprint creation 400 | Sprint name exceeded 30-character limit | Shortened all sprint names |
+| 5 | Comment creation 400 | Plain text rejected, ADF required for v3 API | Rebuilt all payloads in ADF |
+| 6 | Sprint 4 Issues Not Completed | Stories transitioned to Done after sprint close | Documented as lesson |
+| 7 | Velocity chart shows 0 for Sprints 1-4 | Story points backfilled after sprint close | Documented as limitation |
+| 8 | Confluence API 403 | Free tier blocks programmatic creation in personal spaces | Scoped out Epics 2-4 |
 
 ---
 
